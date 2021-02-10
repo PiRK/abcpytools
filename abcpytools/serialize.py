@@ -1,7 +1,7 @@
 import struct
 from typing import Optional, Tuple
 
-from hash import sha256d
+from .hash import sha256d
 
 
 MAINNET_WIF_PREFIX = 0x80

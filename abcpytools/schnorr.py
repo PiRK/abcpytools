@@ -14,9 +14,10 @@ automated-signing environment.
 This is extracted from Electron Cash, with the libsecp256k1 implementation
 removed.
 """
-import ecdsa
 import hashlib
 import hmac
+
+import ecdsa
 
 
 def ECC_YfromX(x, odd=True):

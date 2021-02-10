@@ -2,10 +2,10 @@
 import struct
 from typing import List
 
-from ecc import public_key_from_private_key
-from serialize import write_compact_size, deserialize_privkey
-from hash import sha256d
-import schnorr
+from .ecc import public_key_from_private_key
+from .serialize import write_compact_size, deserialize_privkey
+from .hash import sha256d
+from . import schnorr
 
 
 class PublicKey:
@@ -198,7 +198,7 @@ class ProofBuilder(object):
                      signed_stakes)
 
 
-if __name__ == '__main__':
+def main():
     pubkey = PublicKey(bytes.fromhex(
         "030b4c866585dd868a9d62348a9cd008d6a312937048fff31670e7e920cfc7a744"))
     proofbuilder = ProofBuilder(42, 1699999999, pubkey)
@@ -216,3 +216,7 @@ if __name__ == '__main__':
 
     assert hex_str == expected, "building the proof failed"
     print("Proof successfully generated")
+
+
+if __name__ == '__main__':
+    main()
