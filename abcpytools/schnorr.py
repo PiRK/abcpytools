@@ -19,41 +19,7 @@ import hmac
 
 import ecdsa
 
-
-def ECC_YfromX(x, odd=True):
-    _p = ecdsa.ecdsa.curve_secp256k1.p()
-    _a = ecdsa.ecdsa.curve_secp256k1.a()
-    _b = ecdsa.ecdsa.curve_secp256k1.b()
-    for offset in range(128):
-        Mx = x + offset
-        My2 = pow(Mx, 3, _p) + _a * pow(Mx, 2, _p) + _b % _p
-        My = pow(My2, (_p + 1) // 4, _p)
-
-        if ecdsa.ecdsa.curve_secp256k1.contains_point(Mx, My):
-            if odd == bool(My & 1):
-                return [My, offset]
-            return [_p - My, offset]
-    raise Exception('ECC_YfromX: No Y found')
-
-
-def ser_to_point(Aser) -> ecdsa.ellipticcurve.Point:
-    curve = ecdsa.ecdsa.curve_secp256k1
-    generator = ecdsa.ecdsa.generator_secp256k1
-    _r = generator.order()
-    assert Aser[0] in [0x02, 0x03, 0x04]
-    if Aser[0] == 0x04:
-        return ecdsa.ellipticcurve.Point(
-            curve, ecdsa.util.string_to_number(Aser[1:33]),
-            ecdsa.util.string_to_number(Aser[33:]), _r)
-    Mx = ecdsa.util.string_to_number(Aser[1:])
-    My = ECC_YfromX(Mx, Aser[0] == 0x03)[0]
-    return ecdsa.ellipticcurve.Point(curve, Mx, My, _r)
-
-
-def point_to_ser(P, comp=True):
-    if comp:
-        return bytes.fromhex(('%02x' % (2 + (P.y() & 1))) + ('%064x' % P.x()))
-    return bytes.fromhex('04'+('%064x' % P.x()) + ('%064x' % P.y()))
+from abcpytools.ecc import ser_to_point, point_to_ser
 
 
 def jacobi(a, n):
