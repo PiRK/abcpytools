@@ -15,6 +15,7 @@ matrix:
       env:
         - RUN_COVERAGE=false
 install:
+  - pip install coverage
   - pip install .
 cache:
   - pip
