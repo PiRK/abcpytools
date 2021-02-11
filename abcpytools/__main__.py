@@ -3,7 +3,7 @@ import argparse
 import json
 import sys
 
-from abcpytools.proof import PublicKey, ProofBuilder
+from abcpytools.proof import ProofBuilder
 
 
 def buildavalancheproof(argv):
@@ -28,10 +28,9 @@ def buildavalancheproof(argv):
              " 'privatekey' the private key unlocking the output, in WIF format.")
 
     args = parser.parse_args(argv)
-    pubkey = PublicKey(bytes.fromhex(args.master))
     proofbuilder = ProofBuilder(sequence=args.sequence,
                                 expiration_time=args.expiration,
-                                master=pubkey)
+                                master=args.master)
     for utxo in args.stakes:
         proofbuilder.add_utxo(
             txid=utxo['txid'],

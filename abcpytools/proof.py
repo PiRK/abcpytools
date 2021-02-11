@@ -153,7 +153,7 @@ class Proof:
 
 class ProofBuilder(object):
     def __init__(self, sequence: int, expiration_time: int,
-                 master: PublicKey):
+                 master: str):
         """
 
         :param sequence:
@@ -164,7 +164,7 @@ class ProofBuilder(object):
         """uint64"""
         self.expiration_time = expiration_time
         """int64"""
-        self.master: PublicKey = master
+        self.master: PublicKey = PublicKey(bytes.fromhex(master))
         """Master public key"""
 
         self.stake_signers: List[StakeSigner] = []
